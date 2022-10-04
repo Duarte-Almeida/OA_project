@@ -1,0 +1,203 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% main.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% --------------------- Report Template IST [EN] --------------------- %
+%                                                                      %
+%       João Marafuz Gaspar                                            %
+%       Departamento de Engenharia Eletrotécnica e de Computadores     %
+%       Instituto Superior Tecnico                                     %
+%       Av. Rovisco Pais                                               %
+%       1049-001 Lisboa                                                %
+%       Portugal                                                       %
+%       E-mail: joao.marafuz.gaspar@tecnico.ulisboa.pt                 %
+%                                                                      %
+%  Created:       Jul 30, 2022                                         %
+%  Last Modified: Jul 30, 2022                                         %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Revision history                                                    %
+%  v1 - 2022/07/30 - original template                                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                              Preamble                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ----------------------------------------------------------------------
+% Set the document class
+% ----------------------------------------------------------------------
+\documentclass[12pt]{article}
+
+% ----------------------------------------------------------------------
+% Define external packages, language, margins, fonts, new commands 
+% and colors
+% ----------------------------------------------------------------------
+\usepackage[utf8]{inputenc} % Codification
+\usepackage[english]{babel} % Writing idiom
+
+\usepackage[export]{adjustbox} % Align images
+\usepackage{amsmath} % Extra commands for math mode
+\usepackage{amssymb} % Mathematical symbols
+\usepackage{anysize} % Personalize margins
+    \marginsize{2cm}{2cm}{2cm}{2cm} % {left}{right}{above}{below}
+\usepackage{appendix} % Appendices
+\usepackage{cancel} % Expression cancellation
+\usepackage{caption} % Figure numeration
+\usepackage{cite} % Citations, like [1 - 3]
+\usepackage{color} % Text coloring
+\usepackage{fancyhdr} % Head note and footnote
+    \pagestyle{fancy}
+    \fancyhf{}
+    \fancyhead[L]{\footnotesize IST} % Left of Head note
+    \fancyhead[R]{\footnotesize ULisboa} % Right of Head note
+    \fancyfoot[L]{\footnotesize Course} % Left of Footnote
+    \fancyfoot[C]{\thepage} % Center of Footnote
+    \fancyfoot[R]{\footnotesize Degree} % Right of Footnote
+    \renewcommand{\footrulewidth}{0.4pt} % Footnote rule
+\usepackage{float} % Utilization of [H] in figures
+\usepackage{graphicx} % Figures in LaTeX
+\usepackage[colorlinks = true, plainpages = true, linkcolor = istblue, urlcolor = istblue, citecolor = istblue, anchorcolor = istblue]{hyperref}
+\usepackage{indentfirst} % First paragraph
+\usepackage{siunitx} % SI units
+\usepackage{subfigure} % Subfigures
+
+% Random text (not needed)
+\usepackage{lipsum}
+\usepackage{duckuments}
+
+% New and re-newcommands
+\newcommand{\sen}{\operatorname{\sen}} % Sine function definition
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Specific rule definition
+\renewcommand{\appendixpagename}{\LARGE Appendices}
+
+% Colors
+\definecolor{istblue}{RGB}{3, 171, 230}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                 Document                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Cover
+% ----------------------------------------------------------------------
+\begin{center}
+    \begin{figure}
+        \vspace{-1.0cm}
+        \includegraphics[scale = 0.3, left]{Images/IST_A.eps} % IST logo
+    \end{figure}
+    \mbox{}\\[2.0cm]
+    \textsc{\Huge Optimization and Algorithms Project}\\[2.5cm]
+    %\textsc{\LARGE Degree}\\[2.0cm]
+    %\HRule\\[0.4cm]
+    %{\large \bf Title -- Report Template IST [\texttt{EN}]}\\[0.2cm]
+    %\HRule\\[1.5cm]
+\end{center}
+
+\begin{flushleft}
+    \textbf{Authors:}
+\end{flushleft}
+
+\begin{center}
+    \begin{minipage}{0.5\textwidth}
+        \begin{flushleft}
+            Duarte Calado de Almeida (95565)\\
+            Francisco Manuel Leal Mitha Ribeiro (95578)\\
+            João De Assis Marcos Soares Nabais (97349)\\ 
+            João De Assis Marcos Soares Nabais (965259)
+        \end{flushleft}
+    \end{minipage}%
+    %\begin{minipage}{0.5\textwidth}
+    %    \begin{flushright}
+    %        \href{mailto:joao.marafuz.gaspar@tecnico.ulisboa.pt}{\texttt{joao.marafuz.gaspar@tecnico.ulisboa.pt}}\\
+    %        \href{mailto:lorem.ipsum@tecnico.ulisboa.pt}{\texttt{lorem.ipsum@tecnico.ulisboa.pt}}\\
+    %        \href{mailto:lorem.ipsum@tecnico.ulisboa.pt}{\texttt{lorem.ipsum@tecnico.ulisboa.pt}}
+    %    \end{flushright}
+    %\end{minipage}
+\end{center}
+    
+\begin{flushleft}
+    \large $\boxed{\text{\bf Group} \ 8}$\\[4.0cm]
+\end{flushleft}
+    
+\begin{center}
+    \large \bf 2022/2023 -- 1º Semester, P1
+\end{center}
+
+\thispagestyle{empty}
+
+\setcounter{page}{0}
+
+\newpage
+
+% ----------------------------------------------------------------------
+% Contents
+% ----------------------------------------------------------------------
+\tableofcontents 
+
+\newpage
+
+% ----------------------------------------------------------------------
+% Body
+% ----------------------------------------------------------------------
+\section{Objective}
+
+\lipsum[1] \cite{refs1}
+
+\section{Problem exposition} 
+
+\lipsum[1] \cite{refs2}
+
+\lipsum[2-3]
+
+\newpage
+
+\section{Solution presentation}
+
+\lipsum[1]
+
+\begin{figure}[H]
+	\begin{center}
+ 		\includegraphics[width = 0.8\textwidth]{Images/Image.eps}
+ 		\caption{Caption}
+ 		\label{fig1:graph}
+	\end{center} 
+\end{figure}
+
+\blindduck[maths] \cite{refs1, refs2, refs3}
+
+\subsection{How to present an equation}
+
+\begin{equation}
+    u(\lambda,T)=\frac{8\pi hc\lambda^{-5}}{e^{hc/\lambda kT}-1}
+    \label{eq:1}
+\end{equation}
+
+% ----------------------------------------------------------------------
+% Conclusion
+% ----------------------------------------------------------------------
+\section{Conclusion}
+
+\lipsum[1]
+
+% ----------------------------------------------------------------------
+% References
+% ----------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{refs}
+
+% ----------------------------------------------------------------------
+% Appendices
+% ----------------------------------------------------------------------
+\appendix  
+\clearpage
+\addappheadtotoc 
+\appendixpage 
+
+\section{First appendix}
+
+\lipsum[1]
+
+\section{Second appendix}
+
+\lipsum[1]
+\end{document}
