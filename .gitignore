@@ -1,0 +1,11 @@
+ report.fdb_latexmk report.log         report.pdf         report.tex
+report.aux         report.fls         report.out         report.synctex.gz  report.toc
+
+*.fdb_latexmk
+*.log
+*.aux
+*.fls
+*.out
+*:synctex.gz
+*.toc
+*.DS_Store
