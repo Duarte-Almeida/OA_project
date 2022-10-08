@@ -18,7 +18,7 @@ t2_data = list(zip(t2[0], t2[1]))
 df2 = pd.DataFrame(t2_data, columns=columns)
 
 # Problem data.
-i = 0   # TODO: instances
+i = 6-1   # choose (i=0 -> instance=1)
 T = 60
 x_init = np.array([1, 1, 0, 0])
 A = np.array([[1, 0, 0.2, 0], [0, 1, 0, 0.2], [0, 0, 0.8, 0], [0, 0, 0, 0.8]])
