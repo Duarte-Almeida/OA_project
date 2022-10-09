@@ -1,0 +1,1 @@
+Formulation (5) doesn't include the knowledge the tracker gets at t=35, which is the exact trajectory the target is executing.
