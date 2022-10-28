@@ -1,0 +1,1 @@
+From the results, we can see that the tracker chooses the trajectory with the highest probability.However, if the probability is not 100%, it is noticeable an "hesitation", the tracker prefers to follow the one with highest probability, but deviated towards the other.
