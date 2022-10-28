@@ -1,1 +1,0 @@
-Formulation (5) doesn't include that, until t=34, the tracker will simply follow the minimum cost path between trajectory 1 and 2. Only at t=35 can the tracker make a choice.  +   There is no coupling between (x1, u1) and (x2, u2)
