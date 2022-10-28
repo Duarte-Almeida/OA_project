@@ -110,12 +110,16 @@ TE = [41.408539592113364,
 
 plt.plot(TE, CE, 'ro', label=labels)
 plt.axis([0, 45, 0, 600])
+plt.xlabel("TE")
+plt.ylabel("CE")
 
 for i in range(9):
-    if i not in (2,3):
+    if i not in (2,3,8):
         plt.text(TE[i]+0.5,CE[i]+2,"λ=%d"%(i+1))
     elif i == 2:
         plt.text(TE[i]+0.5,CE[i],"λ=%d"%(i+1))
+    elif i == 8:
+        plt.text(TE[i]+0.8,CE[i]-3,"λ=%d"%(i+1))
     else:
         plt.text(TE[i]-0.5,CE[i]+10,"λ=%d"%(i+1))
 
