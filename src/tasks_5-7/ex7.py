@@ -56,22 +56,35 @@ for t in range(T-1):
 te1 += cp.norm(E @ X1[T-1] - q1[T-1], "inf")
 te2 += cp.norm(E @ X2[T-1] - q2[T-1], "inf")
 
+# Solve problem for each p1 and p2 values and plot obtained trajectory
 objective = cp.Minimize(p1[i]*(te1 + 0.5*ce1) + p2[i]*(te2 + 0.5*ce2))
-
 prob = cp.Problem(objective, constraints)
-
-# The optimal objective value is returned by `prob.solve()`.
 result = prob.solve()
-# The optimal value for x is stored in `x.value`.
-dfx1 = pd.DataFrame(X1.value[:,:2], columns=columns)
-dfx2 = pd.DataFrame(X2.value[:,:2], columns=columns)
 
-# The optimal Lagrange multiplier for a constraint is stored in
-# `constraint.dual_value`.
-# print(constraints[0].dual_value)
+# Magic image size line
+plt.figure(figsize=(46.82 * .5**(.5 * 6), 33.11 * .5**(.5 * 6))) 
+
+plt.plot(X1[:, 0].value, X1[:, 1].value, label = "Vehicle 1", color = "gray", marker = 'o',linewidth = 1, markersize = 1.5)
+plt.plot(X2[:, 0].value, X2[:, 1].value, label = "Vehicle 2", color = "black", marker = 'o',linewidth = 1, markersize = 1.5)
+plt.plot(q1[:, 0], q1[:, 1], label = "Target 1", color = "red", marker='o', linewidth = 1, markersize = 1.5)
+plt.plot(q2[:, 0], q2[:, 1], label = "Target 2", color = "magenta", marker='o', linewidth = 1, markersize = 1.5)
+plt.xlim(-1.5,1.5)
+plt.ylim(-1.5,1.5)
+plt.minorticks_on()
+plt.grid(which = "major", linestyle = "-", alpha = 0.6)
+plt.grid(which = "minor", linestyle = "--", alpha = 0.4)
+plt.tick_params(which = "minor", width = 0)
+plt.tick_params(which = "major", direction = "in")
+plt.text(x_init[0] + .05, x_init[1] + .1, "Vehicle 1", {"color": "gray"})
+plt.text(x_init[0] + .05, x_init[1] - .1, "Vehicle 2", {"color": "black"})
+plt.text(q1[0][0] + .05, q1[0][1] - .15, "Target 1", {"color": "red"})
+plt.text(q2[0][0] + .05, q2[0][1] + .15, "Target 2", {"color": "magenta"})
+plt.title(f"$p_1 = {p1[3]}$, $p_2 = {p2[3]}$")
+plt.savefig(f"./output/ex_7.pdf")
+plt.cla()
 
 # Plots
-
+"""
 plt.figure(figsize=(46.82 * .5**(.5 * 6), 33.11 * .5**(.5 * 6))) # Magic image size line
 
 it = 1
@@ -96,4 +109,5 @@ plt.ylim(-1.5,1.5)
 plt.grid(True)
 plt.legend()
 plt.show()
+"""
 # %%
