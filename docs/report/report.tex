@@ -192,12 +192,12 @@
     \includegraphics{../../src/task_1/output/TEvsCE.pdf}
 \end{figure}
 
-When the parameter $\lambda$ increases, the Tracking and Control Efforts associated with the optimal solution of the resulting optimization problem increases and decreases, respectively. \\
+When the parameter $\lambda$ increases, the Tracking Error and Control Effort associated with the optimal solution of the resulting optimization problem increases and decreases, respectively. \\
 
 \section{Task 2}
 
 \begin{proof}[\unskip\nopunct]
-    Let $(x_a, u_a)$ and $(x_b, u_b)$ denote the minimizers obtained after solving the given optimization problem for $\lambda = \lambda_{a}$ and $\lambda = \lambda_{b}$, respectively. Let $\text{TE}(x, u)$ and $\text{CE}(x, u)$ denote the Tracking and Control Efforts for a given value of $(x, u) = (x(1), ..., x(T), u(1), ..., u(T - 1))$, respectively.
+    Let $(x_a, u_a)$ and $(x_b, u_b)$ denote the minimizers obtained after solving the given optimization problem for $\lambda = \lambda_{a}$ and $\lambda = \lambda_{b}$, respectively. Let $\text{TE}(x, u)$ and $\text{CE}(x, u)$ denote the Tracking Error and Control Effort for a given value of $(x, u) = (x(1), ..., x(T), u(1), ..., u(T - 1))$, respectively.
     Then, suppose that $\text{TE}(x_a, u_a) \le \text{TE}(x_b, u_b)$.
 
     Since $(x_b, u_b)$ minimizes the given optimization problem for $\lambda = \lambda_b$, it follows that:
@@ -205,22 +205,18 @@ When the parameter $\lambda$ increases, the Tracking and Control Efforts associa
     \begin{align}
         \text{TE}(x_b, u_b) + \lambda_b \text{CE}(x_b, u_b) & \le 
         \text{TE}(x_a, u_a) + \lambda_b \text{CE}(x_a, u_a) \\
-        & = 
-        \text{TE}(x_a, u_a) + \lambda_a \text{CE}(x_a, u_a) + ( \lambda_b -  \lambda_a) \text{CE}(x_a, u_a) \\
-        & \le 
-        \text{TE}(x_b, u_b) + \lambda_a \text{CE}(x_a, u_a) + ( \lambda_b -  \lambda_a) \text{CE}(x_a, u_a) \\
-        & = \text{TE}(x_b, u_b) + \lambda_b \text{CE}(x_a, u_a)
+        & \le \text{TE}(x_b, u_b) + \lambda_b \text{CE}(x_a, u_a)
     \end{align}
 
-    where we used the hypothesis that $\text{TE}(x_a, u_a) \le \text{TE}(x_b, u_b)$ do derive (3) from (2). In particular, we have that:
+    where we used the hypothesis that $\text{TE}(x_a, u_a) \le \text{TE}(x_b, u_b)$ do derive (2) from (1). In particular, we have that:
     \vspace{-0.3em}
-    \begin{align}
+    \begin{align*}
         \text{TE}(x_b, u_b) + \lambda_b \text{CE}(x_b, u_b) & \le 
         \text{TE}(x_b, u_b) + \lambda_b \text{CE}(x_a, u_a) \\
         \Leftrightarrow \lambda_b \text{CE}(x_b, u_b) & \le 
         \lambda_b \text{CE}(x_a, u_a) \\
         \Leftrightarrow \text{CE}(x_b, u_b) &\le \text{CE}(x_a, u_a)
-    \end{align}
+    \end{align*}
 
     with the last inequality coming from the fact that $\lambda_b > 0$. We have thus proven the desired result.
 \end{proof}

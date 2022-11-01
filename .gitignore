@@ -6,6 +6,6 @@ report.aux         report.fls         report.out         report.synctex.gz  repo
 *.aux
 *.fls
 *.out
-*:synctex.gz
+*.synctex.gz
 *.toc
 *.DS_Store
