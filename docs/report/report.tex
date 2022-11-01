@@ -102,7 +102,7 @@
     \begin{minipage}{0.5\textwidth}
         \begin{flushleft}
             Duarte Calado de Almeida (95565)\\
-            Francisco Manuel Leal Mitha Ribeiro (95578)\\
+            Francisco Manuel Leal Mithá Ribeiro (95578)\\
             João De Assis Marcos Soares Nabais (97349)\\ 
             João De Assis Marcos Soares Nabais (965259)
         \end{flushleft}
@@ -221,6 +221,66 @@ When the parameter $\lambda$ increases, the Tracking Error and Control Effort as
     with the last inequality coming from the fact that $\lambda_b > 0$. We have thus proven the desired result.
 \end{proof}
 
+\section{Task 4}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{../../src/task_4/output/ex_4_i=1.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{../../src/task_4/output/ex_4_i=2.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{../../src/task_4/output/ex_4_i=3.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{../../src/task_4/output/ex_4_i=4.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{../../src/task_4/output/ex_4_i=5.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{../../src/task_4/output/ex_4_i=6.pdf}
+\end{figure}
+
+From the results, we can see that the tracker chooses the trajectory with the highest probability. However, if the probability is not 100\%, it is noticeable an "hesitation", the tracker prefers to follow the one with highest probability, but deviated towards the other. \\
+
+\section{Task 5}
+
+The given formulation doesn't include that, until $t = 34$, the tracker will simply follow the minimum cost path between trajectory 1 and 2. Only at $t = 35$ will the tracker follow the true target. Also, there is no coupling between ($x_1$, $u_1$) and ($x_2$, $u_2$). \\
+
+\section{Task 6}
+
+The following constraint solves the questions raised in the previous task: \\
+\vspace{-0.3em}
+\begin{equation}
+    \label{equation_t6}
+    u_1(t) = u_{2}(t), \> \> \> \text{for } 1 \le t \le 34
+\end{equation}
+
+Note that $x_1$ and $x_2$ become coupled (for $1 \le t \le 34$) by these constraints together with (\ref{equation_t6}): \\
+\vspace{-0.3em}
+\begin{align*}
+    x_1(t+1) = A x_1(t) + B u_1(t), \> \> \> &\text{for } 1 \le t \le T-1 \\
+    x_2(t+1) = A x_2(t) + B u_2(t), \> \> \> &\text{for } 1 \le t \le T-1
+\end{align*}
+
+\section{Task 7}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{../../src/tasks_5-7/output/ex_7.pdf}
+\end{figure}
 
 
 
