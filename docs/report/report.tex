@@ -1,25 +1,3 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% main.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                                      %
-% --------------------- Report Template IST [EN] --------------------- %
-%                                                                      %
-%       João Marafuz Gaspar                                            %
-%       Departamento de Engenharia Eletrotécnica e de Computadores     %
-%       Instituto Superior Tecnico                                     %
-%       Av. Rovisco Pais                                               %
-%       1049-001 Lisboa                                                %
-%       Portugal                                                       %
-%       E-mail: joao.marafuz.gaspar@tecnico.ulisboa.pt                 %
-%                                                                      %
-%  Created:       Jul 30, 2022                                         %
-%  Last Modified: Jul 30, 2022                                         %
-%                                                                      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Revision history                                                    %
-%  v1 - 2022/07/30 - original template                                 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                              Preamble                                %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % ----------------------------------------------------------------------
 % Set the document class
 % ----------------------------------------------------------------------
@@ -31,7 +9,7 @@
 % ----------------------------------------------------------------------
 \usepackage[utf8]{inputenc} % Codification
 \usepackage[english]{babel} % Writing idiom
-
+\usepackage{stackengine}
 \usepackage[export]{adjustbox} % Align images
 \usepackage{amsmath} % Extra commands for math mode
 \usepackage{amssymb} % Mathematical symbols
@@ -220,6 +198,34 @@ When the parameter $\lambda$ increases, the Tracking Error and Control Effort as
 
     with the last inequality coming from the fact that $\lambda_b > 0$. We have thus proven the desired result.
 \end{proof}
+
+\section{Task 3}
+
+\par
+To prove that the problem has a unique solution we must convert it to an unconstrained optimization problem in order to prove the loss function is strongly convex. By solving the recurrence relation in the constraints we get:
+
+\begin{align*}
+    x(t)= A \cdot x(t&-1) + B \cdot u(t-1)
+    \Leftrightarrow
+    \\
+    \Leftrightarrow 
+    x(t)= A^{(t-1)} \cdot & x(1) + \sum_{i=1}^{T-1} A^{(i-1)} \cdot B \cdot u(i)
+\end{align*}
+
+\par
+Plugging this into the problem we know get:
+
+\begin{align*}
+    \stackunder{minimize}{\small{u}} \hspace{0.4cm}
+    \sum_{t=1}^{T} ||E \cdot (A^{(t-1)} \cdot x(1) + \sum_{i=1}^{T-1} A^{(i-1)} \cdot B \cdot u(i))||_{\infty} +
+    \lambda \cdot \sum_{t=1}^{T-1} ||u(t)||_{2}^2
+\end{align*}
+
+\par
+Knowing that  $||u(t)||_{2}^2$ is a strongly convex function (because it is a squared $\mathit{l_2}$ norm) and that $\sum_{t=1}^{T-1} ||u(t)||_{2}^2$ is the sum of strongly convex functions, if the $TE$\footnote{$TE$ is the Tracking Error} is a convex function, then, the loss function is strongly convex. Seeing that the $TE$ is the sum of $T$ $\mathit{l_\infty}$ norms and that the $max$ function is convex, then, the $TE$ is convex.
+
+\par
+In conclusion, the loss function is the sum of a convex function ($TE$) and a strongly convex function ($CE$), so it's in itself a strongly convex function, thereby proving it has a unique solution.
 
 \section{Task 4}
 
