@@ -47,40 +47,36 @@ for t in range(T-1):
 te1 += cp.norm(E @ X[T-1] - q1[T-1], "inf")
 te2 += cp.norm(E @ X[T-1] - q2[T-1], "inf")
 
-objective = cp.Minimize(p1[i]*te1 + p2[i]*te2 + 0.5*ce)
-
-prob = cp.Problem(objective, constraints)
-
-# The optimal objective value is returned by `prob.solve()`.
-result = prob.solve()
-# The optimal value for x is stored in `x.value`.
-dfx = pd.DataFrame(X.value[:,:2], columns=columns)
-
 # The optimal Lagrange multiplier for a constraint is stored in
 # `constraint.dual_value`.
 # print(constraints[0].dual_value)
 
 # Plots
 
-plt.figure(figsize=(46.82 * .5**(.5 * 6), 33.11 * .5**(.5 * 6))) # Magic image size line
+# Solve problem for each p1 and p2 values and plot obtained trajectory
+for i in range(len(p1)):
+    objective = cp.Minimize(p1[i]*te1 + p2[i]*te2 + 0.5*ce)
+    prob = cp.Problem(objective, constraints)
+    result = prob.solve()
 
-it = 1
-for frame in [df1, df2, dfx]:
-    if it == 1:
-        lbl = "Target 1"
-        col = "red"
-    elif it == 2:
-        lbl = "Target 2"
-        col = "magenta"
-    else:
-        lbl = "Tracker"
-        col = "black"
-    plt.plot(frame['x'], frame['y'], label=lbl, color=col)
-    it += 1
+    # Magic image size line
+    plt.figure(figsize=(46.82 * .5**(.5 * 6), 33.11 * .5**(.5 * 6))) 
 
-plt.xlim(-1.5,1.5)
-plt.ylim(-1.5,1.5)
-plt.grid(True)
-plt.legend()
-plt.show()
+    plt.plot(X[:, 0].value, X[:, 1].value, label = "Vehicle", color = "black", marker = 'o',linewidth = 1, markersize = 1.5)
+    plt.plot(q1[:, 0], q1[:, 1], label = "Target 1", color = "red", marker='o', linewidth = 1, markersize = 1.5)
+    plt.plot(q2[:, 0], q2[:, 1], label = "Target 2", color = "magenta", marker='o', linewidth = 1, markersize = 1.5)
+    plt.xlim(-1.5,1.5)
+    plt.ylim(-1.5,1.5)
+    plt.minorticks_on()
+    plt.grid(which = "major", linestyle = "-", alpha = 0.6)
+    plt.grid(which = "minor", linestyle = "--", alpha = 0.4)
+    plt.tick_params(which = "minor", width = 0)
+    plt.tick_params(which = "major", direction = "in")
+    plt.text(x_init[0] + .05, x_init[1] + .1, "Vehicle", {"color": "black"})
+    plt.text(q1[0][0] + .05, q1[0][1] - .15, "Target 1", {"color": "red"})
+    plt.text(q2[0][0] + .05, q2[0][1] + .15, "Target 2", {"color": "magenta"})
+    plt.title(f"$p_1 = {p1[i]}$, $p_2 = {p2[i]}$")
+    plt.savefig(f"./output/ex_4_i={i + 1}.pdf")
+    plt.cla()
+
 # %%
