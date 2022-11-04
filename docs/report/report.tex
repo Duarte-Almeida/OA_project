@@ -194,7 +194,7 @@ In order to give a rationale for these observations, notice that, for a given va
 \]
 As such, we can argue that:
 \begin{itemize}
-    \item[--] a decrease in $\lambda$ diminishes the importance of the parcel $\lambda \text{CE}(x, u)$ relative to that of $\text{TE}(x, u)$ in the objective function. Hence, bigger decreases in the cost function are more easily attained by lowering the TE instead of the CE, explaining the lower value for the TE that is obtained at an optimal solution. Furthermore, since the parcel TE pertains to the overall proximity of the positions of the target and the vehicle's trajectories at each instant $t$, it also follows that these trajectories tend become similar with the shrinkage of $\lambda$.
+    \item[--] a decrease in $\lambda$ diminishes the importance of the parcel $\lambda \text{CE}(x, u)$ relative to that of $\text{TE}(x, u)$ in the objective function. Hence, bigger decreases in the cost function are more easily attained by lowering the TE instead of the CE, explaining the lower value for the TE that is obtained at an optimal solution. Furthermore, since the parcel TE pertains to the overall proximity of the positions of the target and the vehicle's trajectories at each instant $t$, it also follows that these trajectories tend to become similar with the shrinkage of $\lambda$.
     \item[--] Conversely, an increase in $\lambda$ diminishes the importance of the parcel $\text{TE}(x, u)$ relative to that of $\lambda \text{CE}(x, u)$ in the objective function, resulting in a lower value for the CE at an optimal solution, following an analogous reasoning to the one above. Moreover, we have that lower values for the CE result in lower norms for $u$ and, consequently, for $u(t)$ ($t = 1, ..., T-1$). This, together with the relation
     \[
         x(t + 1) = Ax(t) + Bu(t)
@@ -295,12 +295,12 @@ On another hand, for $t = 1, ..., T$, $g_t$ can be re-written as:
     \end{bmatrix}
     }_{\mathcal{A}}
     \begin{bmatrix}
-        u(1) \\ u(2) \\ u(3) \\ ... \\ u(T - 1)
+        u(1) \\ u(2) \\ u(3) \\ ... \\ u(t - 1)
     \end{bmatrix}
     + \underbrace{EA^{(t-1)} x_{\text{initial}} - q(t)}_{\beta}\bigg\|_{\infty} \\
-    &= \| \mathcal{A}u + \beta \|_{\infty} = (N \circ T)(u)
+    &= \| \mathcal{A}u_{t-1} + \beta \|_{\infty} = (N \circ T)(u_{t-1})
 \end{align*}
-where $T(u) = \mathcal{A}u + \beta$ and $N(z) = \|z\|_{\infty}$.\par
+where $T(u_{t-1}) = \mathcal{A}u_{t-1} + \beta$ and $N(z) = \|z\|_{\infty}$.\par
 Since $N$ is a convex function (it is a norm) and $T$ is an affine map, it follows that $g_t(u)$ is a convex function. Moreover, $\sum_{t=1}^{T} g_t(u)$ is also a convex function, since it is a conic combination of convex functions.
 \par
 In conclusion, the cost function is the sum of a convex function $(\sum_{t=1}^{T} g_t(u))$ with a strongly convex function ($h(u)$), so it's itself a strongly convex function, thereby proving it has a unique global minimizer and so the optimization problem has a unique solution.
