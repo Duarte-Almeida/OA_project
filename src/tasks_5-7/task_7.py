@@ -5,6 +5,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
 
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": "Computer Modern",
+})
+
 # Read input
 input_t1 = loadmat('../inputs/target_1.mat')
 t1 = [[element for element in upperElement] for upperElement in input_t1['target']]
@@ -83,31 +89,4 @@ plt.title(f"$p_1 = {p1[3]}$, $p_2 = {p2[3]}$")
 plt.savefig(f"./output/ex_7.pdf")
 plt.cla()
 
-# Plots
-"""
-plt.figure(figsize=(46.82 * .5**(.5 * 6), 33.11 * .5**(.5 * 6))) # Magic image size line
-
-it = 1
-for frame in [df1, df2, dfx1, dfx2]:
-    if it == 1:
-        lbl = "Target 1"
-        col = "red"
-    elif it == 2:
-        lbl = "Target 2"
-        col = "magenta"
-    elif it == 3:
-        lbl = "Tracker 1"
-        col = "gray"
-    else:
-        lbl = "Tracker 2"
-        col = "black"
-    plt.plot(frame['x'], frame['y'], label=lbl, color=col)
-    it += 1
-
-plt.xlim(-1.5,1.5)
-plt.ylim(-1.5,1.5)
-plt.grid(True)
-plt.legend()
-plt.show()
-"""
 # %%

@@ -5,6 +5,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
 
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": "Computer Modern",
+})
+
 # Read input
 input_t1 = loadmat('../inputs/target_1.mat')
 t1 = [[element for element in upperElement] for upperElement in input_t1['target']]
@@ -47,9 +53,6 @@ for t in range(T-1):
 te1 += cp.norm(E @ X[T-1] - q1[T-1], "inf")
 te2 += cp.norm(E @ X[T-1] - q2[T-1], "inf")
 
-# The optimal Lagrange multiplier for a constraint is stored in
-# `constraint.dual_value`.
-# print(constraints[0].dual_value)
 
 # Plots
 

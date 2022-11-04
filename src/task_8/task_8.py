@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.io import loadmat
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
+import matplotlib.ticker as mticker
 import matplotlib
 
 # column vector of instants of measurements
@@ -9,6 +9,7 @@ t_i = 0
 t_f = 5
 no_divisions = 10
 T = np.array([np.linspace(t_i, t_f, (no_divisions) * (t_f - t_i) + 1)]).T
+print(T)
 
 # sensor positions
 s = np.array([[0, -1], 
@@ -159,7 +160,6 @@ def get_stacked_g_gradients(p, v):
 
     # matrix where the first and the second entries of row i have (t_i, 1) and (t_i, 2), respectively
     t_i_pairs = np.array([[t_i, i] for t_i in T.flatten() for i in range(1, 3)])
-    #print(t_i_pairs)
 
     return np.apply_along_axis(lambda entry: compute_gradient_g_t_i(p, v, entry[0], int(entry[1])),
                                                 arr = t_i_pairs, axis = 1)
@@ -221,6 +221,7 @@ while (True):
         b = grads_g @ x - g_values
         b = np.concatenate((b, diagonal_matrix @ x), axis = 0)
 
+        # Solve least squares problem
         solution = np.linalg.lstsq(A, b, rcond = None)[0]
         tentative_p = solution[ : 2]
         tentative_v = solution[2 : ]
@@ -237,6 +238,9 @@ while (True):
             lamb = lamb * 2
             gradient_norms.append(np.linalg.norm(curr_grad))
 
+print(f"p = {p}  v = {v}")
+print(f"f = {compute_f(p, v, r1, r2)}")
+
 plt.rcParams['text.usetex'] = True
 plt.rc('font', family='serif')
 
@@ -252,7 +256,11 @@ ax.set_xlabel('$k$')
 ax.set_ylabel('cost function $f(x_k)$')
 
 ax.set_xticks(k_range)
-ax.grid()
+ax.minorticks_on()
+ax.grid(which = "major", linestyle = "-", alpha = 0.6)
+ax.grid(which = "minor", linestyle = "--", alpha = 0.4)
+ax.tick_params(which = "minor", width = 0)
+ax.tick_params(which = "major", direction = "in")
 
 plt.savefig("./output/cost_function_values.pdf")
 
@@ -267,8 +275,21 @@ ax.set_ylabel('$\|\\nabla f(x_k)\|_{2}$')
 
 ax.set_xticks(k_range)
 
+# Only show even powers of 10
+log_range = [10 ** i for i in range(int(np.floor(np.log10(np.min(gradient_norms)))), 
+                                    int(np.ceil(np.log10(np.max(gradient_norms))))) if i % 2 == 0]
+
 ax.set_yscale('log')
-ax.grid()
+ax.minorticks_on()
+ax.set_yticks(log_range)
+ax.grid(which = "major", linestyle = "-", alpha = 0.6)
+ax.grid(which = "minor", linestyle = "--", alpha = 0.2)
+ax.tick_params(which = "minor", width = 0)
+ax.tick_params(which = "major", direction = "in")
+
+locmin = mticker.LogLocator(base=10, subs=np.arange(0.1, 1, 0.1),numticks=10)  
+ax.yaxis.set_minor_locator(locmin)
+ax.yaxis.set_minor_formatter(mticker.NullFormatter())
 
 plt.savefig("./output/gradient_norms.pdf")
 
