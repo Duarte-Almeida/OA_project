@@ -182,9 +182,9 @@
     \includegraphics{../../src/task_1/output/TEvsCE.pdf}
 \end{figure}
 
-Upon analyzing the plots above, one concludes that a decrease in the parameter $\lambda$ of the optimization problem yields a solution $x^*$ to the correspoding optimization problem such that:
+Upon analyzing the plots above, one concludes that a decrease in the parameter $\lambda$ of the optimization problem yields a solution $x^*$ to the corresponding optimization problem such that:
 \begin{enumerate}
-    \item the resulting vehicle trajectory is overall less dissimilar to that of the target (when it comes to proximity between positions in the two trajectores associated with the same time instant).
+    \item the resulting vehicle trajectory is overall less dissimilar to that of the target (when it comes to proximity between positions in the two trajectories associated with the same time instant).
     \item the value of the resulting Tracking Effort (TE) decreases, while the corresponding Control Error (CE) registers an increase.
 \end{enumerate}
 In order to give a rationale for these observations, notice that, for a given value of $(x, u) = (x(1), ..., x(T), u(1), ..., u(T - 1))$, the cost function of the optimization problem can be written as:
@@ -232,7 +232,7 @@ As such, we can argue that:
 \section{Task 3}
 
 \begin{proof}[\unskip\nopunct]
-To prove that the problem has a unique solution we begin by convert it to an unconstrained optimization problem. By solving the recurrence relation in the constraints we get:
+To prove that the problem has a unique solution we begin by converting it to an unconstrained optimization problem. By solving the recurrence relation in the constraints we get:
 \vspace{-0.1em}
 \begin{align*}
     x(t)= Ax(t&-1) + Bu(t-1)
@@ -339,7 +339,7 @@ In conclusion, the cost function is the sum of a convex function $(\sum_{t=1}^{T
 \end{figure}
 
 %From the results, we can see that the tracker chooses the trajectory with the highest probability. However, if the probability is not 100\%, it is noticeable an "hesitation", the tracker prefers to follow the one with highest probability, but deviated towards the other. \\
-From the results, we can see that an increase in $p_i$ yields an increase in proximity to the trajectory of the vehicle $i$ ($i \in \{1, 2\})$ in the sense that, for each time instant, the correspoding position becomes less distant (in this case, according to $l_{\infty}$ distance) to the position of the trajectory of vehicle $i$ in the same instant. Moreover, we observe that this overall proximity is more substantial when it is relative to the trajectory of the vehicle associated with the highest prior probability.
+From the results, we can see that an increase in $p_i$ yields an increase in proximity to the trajectory of the vehicle $i$ ($i \in \{1, 2\})$ in the sense that, for each time instant, the corresponding position becomes less distant (in this case, according to $l_{\infty}$ distance) to the position of the trajectory of vehicle $i$ in the same instant. Moreover, we observe that this overall proximity is more substantial when it is relative to the trajectory of the vehicle associated with the highest prior probability.
 
 Noting that the cost function can be written as:
 \[
@@ -371,7 +371,7 @@ with $k \in \{1, 2\}$. Given that the set of constraints can be broken into two 
     & \;\;\; x_k(t + 1) = Ax_k(t) + Bu_k(t)
 \end{align*}
 
-where $k \in \{1, 2\}$. With that being said, we would be obtaining two independent solutions for the problem discussed in Tasks 1, 2 and 3. In turn, these two trajectories would only coincide at the initial instant but would tendentially become closer to the target associated with the correspoding problem. Hence, this formulation is completely agnostic to the fact that, until the target is made known at $t = 35$, the trajectories must be exactly the same.
+where $k \in \{1, 2\}$. With that being said, we would be obtaining two independent solutions for the problem discussed in Tasks 1, 2 and 3. In turn, these two trajectories would only coincide at the initial instant but would tendentially become closer to the target associated with the corresponding problem. Hence, this formulation is completely agnostic to the fact that, until the target is made known at $t = 35$, the trajectories must be exactly the same.
 
 %The given formulation doesn't include that, until $t = 34$, the tracker will simply follow the minimum cost path between trajectory 1 and 2. Only at $t = 35$ will the tracker follow the true target. Also, there is no coupling between ($x_1$, $u_1$) and ($x_2$, $u_2$). \\
 
