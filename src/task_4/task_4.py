@@ -13,13 +13,15 @@ plt.rcParams.update({
 
 # Read input
 input_t1 = loadmat('../inputs/target_1.mat')
-t1 = [[element for element in upperElement] for upperElement in input_t1['target']]
+t1 = [[element for element in upperElement] 
+        for upperElement in input_t1['target']]
 t1_data = list(zip(t1[0], t1[1]))
 columns = ['x', 'y']
 df1 = pd.DataFrame(t1_data, columns=columns)
 
 input_t2 = loadmat('../inputs/target_2.mat')
-t2 = [[element for element in upperElement] for upperElement in input_t2['target']]
+t2 = [[element for element in upperElement] 
+        for upperElement in input_t2['target']]
 t2_data = list(zip(t2[0], t2[1]))
 df2 = pd.DataFrame(t2_data, columns=columns)
 
@@ -53,9 +55,7 @@ for t in range(T-1):
 te1 += cp.norm(E @ X[T-1] - q1[T-1], "inf")
 te2 += cp.norm(E @ X[T-1] - q2[T-1], "inf")
 
-
 # Plots
-
 # Solve problem for each p1 and p2 values and plot obtained trajectory
 for i in range(len(p1)):
     objective = cp.Minimize(p1[i]*te1 + p2[i]*te2 + 0.5*ce)

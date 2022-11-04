@@ -84,7 +84,8 @@ offsets = [[0.2, 10],  # 1
            [0.8, -10]] # 9
 
 for i in range(len(TEs)):
-    plt.text(TEs[i] + offsets[i][0], CEs[i] + offsets[i][1], f"$\lambda_{i + 1}$")
+    plt.text(TEs[i] + offsets[i][0], 
+             CEs[i] + offsets[i][1], f"$\lambda_{i + 1}$")
     
 plt.minorticks_on()
 plt.grid(which = "major", linestyle = "-", alpha = 0.6)

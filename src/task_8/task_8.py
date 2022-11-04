@@ -9,7 +9,6 @@ t_i = 0
 t_f = 5
 no_divisions = 10
 T = np.array([np.linspace(t_i, t_f, (no_divisions) * (t_f - t_i) + 1)]).T
-print(T)
 
 # sensor positions
 s = np.array([[0, -1], 
@@ -89,8 +88,10 @@ def compute_gradient_f_t(p, v, t, measurement_1, measurement_2):
         A 1D NumPy array representing the gradient
     """
 
-    return 2 * compute_g_t_i(p, v, t, measurement_1, 1) * compute_gradient_g_t_i(p, v, t, 1) + \
-           2 * compute_g_t_i(p, v, t, measurement_2, 2) * compute_gradient_g_t_i(p, v, t, 2)
+    return 2 * compute_g_t_i(p, v, t, measurement_1, 1) \
+             * compute_gradient_g_t_i(p, v, t, 1) + \
+           2 * compute_g_t_i(p, v, t, measurement_2, 2) \
+             * compute_gradient_g_t_i(p, v, t, 2)
 
 def compute_f_t(p, v, t, measurement_1, measurement_2):
     """ Given the position and velocity of the target, get the sum of the 
@@ -106,7 +107,8 @@ def compute_f_t(p, v, t, measurement_1, measurement_2):
     Returns:
         A scalar representing
     """
-    return compute_g_t_i(p, v, t, measurement_1, 1) ** 2 + compute_g_t_i(p, v, t, measurement_2, 2) ** 2
+    return compute_g_t_i(p, v, t, measurement_1, 1) ** 2 + \
+           compute_g_t_i(p, v, t, measurement_2, 2) ** 2
 
 def compute_gradient_f(p, v, r1, r2):
     """ Given the position and velocity of the target, get the gradient of the 
@@ -125,7 +127,8 @@ def compute_gradient_f(p, v, r1, r2):
     # matrix where the entries of row i are (t_i, r1[t_i], r2[t_i])
     t_m_triples = np.hstack((T, r1.reshape(r1.size, 1), r2.reshape(r2.size, 1)))
 
-    return np.apply_along_axis(lambda entry: compute_gradient_f_t(p, v, entry[0], entry[1], entry[2]),
+    return np.apply_along_axis(lambda entry: 
+            compute_gradient_f_t(p, v, entry[0], entry[1], entry[2]),
                                arr = t_m_triples, axis = 1).sum(axis = 0)
 
 def compute_f(p, v, r1, r2):
@@ -144,7 +147,8 @@ def compute_f(p, v, r1, r2):
     # matrix where the entries of row i are (t_i, r1[t_i], r2[t_i])
     t_m_triples = np.hstack((T, r1.reshape(r1.size, 1), r2.reshape(r2.size, 1)))
 
-    return np.apply_along_axis(lambda entry: compute_f_t(p, v, entry[0], entry[1], entry[2]),
+    return np.apply_along_axis(lambda entry: 
+            compute_f_t(p, v, entry[0], entry[1], entry[2]),
                                arr = t_m_triples, axis = 1).sum(axis = 0)
 
 def get_stacked_g_gradients(p, v):
@@ -161,7 +165,8 @@ def get_stacked_g_gradients(p, v):
     # matrix where the first and the second entries of row i have (t_i, 1) and (t_i, 2), respectively
     t_i_pairs = np.array([[t_i, i] for t_i in T.flatten() for i in range(1, 3)])
 
-    return np.apply_along_axis(lambda entry: compute_gradient_g_t_i(p, v, entry[0], int(entry[1])),
+    return np.apply_along_axis(lambda entry: 
+            compute_gradient_g_t_i(p, v, entry[0], int(entry[1])),
                                                 arr = t_i_pairs, axis = 1)
 
 def get_stacked_g_values(p, v, measurements_1, measurements_2):
@@ -187,7 +192,8 @@ def get_stacked_g_values(p, v, measurements_1, measurements_2):
      # and (t_i, 2, measurement_2), respectively
     t_i_m_triples = np.hstack((t_i_pairs, measurements.reshape(measurements.size, 1)))
 
-    return np.apply_along_axis(lambda entry: compute_g_t_i(p, v, entry[0], entry[2], int(entry[1])),
+    return np.apply_along_axis(lambda entry: 
+            compute_g_t_i(p, v, entry[0], entry[2], int(entry[1])),
                                                 arr = t_i_m_triples, axis = 1)
 
 # Read the data
@@ -276,8 +282,9 @@ ax.set_ylabel('$\|\\nabla f(x_k)\|_{2}$')
 ax.set_xticks(k_range)
 
 # Only show even powers of 10
-log_range = [10 ** i for i in range(int(np.floor(np.log10(np.min(gradient_norms)))), 
-                                    int(np.ceil(np.log10(np.max(gradient_norms))))) if i % 2 == 0]
+log_range = [10 ** i for i in range(
+    int(np.floor(np.log10(np.min(gradient_norms)))), 
+    int(np.ceil(np.log10(np.max(gradient_norms))))) if i % 2 == 0]
 
 ax.set_yscale('log')
 ax.minorticks_on()

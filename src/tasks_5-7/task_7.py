@@ -13,13 +13,15 @@ plt.rcParams.update({
 
 # Read input
 input_t1 = loadmat('../inputs/target_1.mat')
-t1 = [[element for element in upperElement] for upperElement in input_t1['target']]
+t1 = [[element for element in upperElement] 
+        for upperElement in input_t1['target']]
 t1_data = list(zip(t1[0], t1[1]))
 columns = ['x', 'y']
 df1 = pd.DataFrame(t1_data, columns=columns)
 
 input_t2 = loadmat('../inputs/target_2.mat')
-t2 = [[element for element in upperElement] for upperElement in input_t2['target']]
+t2 = [[element for element in upperElement] 
+        for upperElement in input_t2['target']]
 t2_data = list(zip(t2[0], t2[1]))
 df2 = pd.DataFrame(t2_data, columns=columns)
 

@@ -37,6 +37,7 @@
 \usepackage{indentfirst} % First paragraph
 \usepackage{siunitx} % SI units
 \usepackage{subfigure} % Subfigures
+\usepackage{courier}
 
 % Random text (not needed)
 \usepackage{lipsum}
@@ -45,6 +46,11 @@
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\newcommand\overmat[2]{%
+  \makebox[0pt][l]{$\smash{\color{black}\overbrace{\phantom{%
+    \begin{matrix}#2\end{matrix}}}^{\text{\color{black}#1}}}$}#2}
+\newcommand\partialphantom{\vphantom{\frac{\partial e_{P,M}}{\partial w_{1,1}}}}
 
 \lstset{ %
   backgroundcolor=\color{white},   % choose the background color
@@ -55,6 +61,7 @@
   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
   keywordstyle=\color{blue},       % keyword style
   stringstyle=\color{mymauve},     % string literal style
+  basicstyle=\footnotesize\ttfamily
 }
 
 
@@ -85,10 +92,6 @@
     \end{figure}
     \mbox{}\\[2.0cm]
     \textsc{\Huge Optimization and Algorithms Project}\\[2.5cm]
-    %\textsc{\LARGE Degree}\\[2.0cm]
-    %\HRule\\[0.4cm]
-    %{\large \bf Title -- Report Template IST [\texttt{EN}]}\\[0.2cm]
-    %\HRule\\[1.5cm]
 \end{center}
 
 \begin{flushleft}
@@ -182,7 +185,7 @@
     \includegraphics{../../src/task_1/output/TEvsCE.pdf}
 \end{figure}
 
-Upon analyzing the plots above, one concludes that a decrease in the parameter $\lambda$ of the optimization problem yields a solution $x^*$ to the corresponding optimization problem such that:
+Upon analyzing the plots above, one concludes that a decrease in the parameter $\lambda$ of the optimization problem yields a solution $(x^*, u^*)$ to the corresponding optimization problem such that:
 \begin{enumerate}
     \item the resulting vehicle trajectory is overall less dissimilar to that of the target (when it comes to proximity between positions in the two trajectories associated with the same time instant).
     \item the value of the resulting Tracking Effort (TE) decreases, while the corresponding Control Error (CE) registers an increase.
@@ -194,8 +197,8 @@ In order to give a rationale for these observations, notice that, for a given va
 \]
 As such, we can argue that:
 \begin{itemize}
-    \item[--] a decrease in $\lambda$ diminishes the importance of the parcel $\lambda \text{CE}(x, u)$ relative to that of $\text{TE}(x, u)$ in the objective function. Hence, bigger decreases in the cost function are more easily attained by lowering the TE instead of the CE, explaining the lower value for the TE that is obtained at an optimal solution. Furthermore, since the parcel TE pertains to the overall proximity of the positions of the target and the vehicle's trajectories at each instant $t$, it also follows that these trajectories tend to become similar with the shrinkage of $\lambda$.
-    \item[--] Conversely, an increase in $\lambda$ diminishes the importance of the parcel $\text{TE}(x, u)$ relative to that of $\lambda \text{CE}(x, u)$ in the objective function, resulting in a lower value for the CE at an optimal solution, following an analogous reasoning to the one above. Moreover, we have that lower values for the CE result in lower norms for $u$ and, consequently, for $u(t)$ ($t = 1, ..., T-1$). This, together with the relation
+    \item[--] a decrease in $\lambda$ diminishes the importance of the parcel $\lambda \text{CE}(x, u)$ relative to that of $\text{TE}(x, u)$ in the objective function. Hence, bigger decreases in the cost function can be more easily attained by lowering the TE, explaining the lower value for the TE that is obtained at an optimal solution. Furthermore, since the parcel TE pertains to the overall proximity of the positions of the target and the vehicle's trajectories at each instant $t$, it also follows that these trajectories tend to become similar with the shrinkage of $\lambda$.
+    \item[--] Conversely, an increase in $\lambda$ diminishes the importance of the parcel $\text{TE}(x, u)$ relative to that of $\lambda \text{CE}(x, u)$ in the objective function, resulting in a lower value for the CE at an optimal solution, following an analogous reasoning to the one above. Moreover, we have that lower values for the CE result in lower norms for $u$ and, consequently, for at least some $u(t)$ ($t = 1, ..., T-1$). This, together with the relation
     \[
         x(t + 1) = Ax(t) + Bu(t)
     \]
@@ -232,7 +235,7 @@ As such, we can argue that:
 \section{Task 3}
 
 \begin{proof}[\unskip\nopunct]
-To prove that the problem has a unique solution we begin by converting it to an unconstrained optimization problem. By solving the recurrence relation in the constraints we get:
+To prove that the problem has a unique solution we begin by converting it to an unconstrained optimization problem. By solving the recurrence relation in the constraints we get, for $ t \ge 2$:
 \vspace{-0.1em}
 \begin{align*}
     x(t)= Ax(t&-1) + Bu(t-1)
@@ -242,68 +245,75 @@ To prove that the problem has a unique solution we begin by converting it to an 
     x(t)= A^2x(t&-2) + ABu(t-2) + Bu(t-1)
     \Leftrightarrow
     \\
+    \Leftrightarrow
+    x(t)= A^3x(t&-3) + A^2Bu(t-3) + ABu(t - 2) + Bu(t-1)
+    \Leftrightarrow
+    \\
     \vdots
     \\
     \Leftrightarrow 
-    x(t)= A^{(t-1)} & x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(i-1)}Bu(i)
+    x(t)= A^{(t-1)} & x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(t - i - 1)}Bu(i)
 \end{align*}
 
-This closed form can be confirmed using induction in $t$. The induction basis ($t = 1$) is trivially verified (considering that a summation whose lower limit exceeds its upper limit evaluates to zero):
+This closed form can be confirmed using induction in $t$. For the induction basis ($t = 2$):
 \vspace{-0.8em}
 \begin{align*}
-    x(1) = A^0 x(1) &= A^0 x_{\text{initial}} +  \sum_{i=1}^{0} A^{(i-1)}Bu(i) \\
-    &= A^{(1 - 1)} x_{\text{initial}} +  \sum_{i=1}^{1 - 1} A^{(i-1)}Bu(i)
+    x(2) = A x(1) + Bu(1) &= A^{(2 - 1)} x_{\text{initial}} + \sum_{i=1}^{2 - 1} A^{(t - i - 1)}Bu(i) \\
 \end{align*}
-\vspace{-0.5em}
 For the induction step, we have:
+\vspace{-0.3em}
 \begin{align*}
     x(t + 1) &= Ax(t) + Bu(t) \\
-    &= A \left(  A^{(t-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(i-1)}Bu(i) \right) + Bu(t) \\ 
-    &=  A^{((t + 1)-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(i + 1 -1)}Bu(i) + Bu(t) \\ 
-    &= A^{((t + 1)-1)} x_{\text{initial}} + \sum_{i=2}^{(t + 1)-1} A^{(i-1)}Bu(i) + A^{(1 - 1)}Bu(t) \\ 
-    &= A^{((t + 1)-1)} x_{\text{initial}} + \sum_{i=1}^{(t + 1)-1} A^{(i-1)}Bu(i)
+    &= A \left(  A^{(t-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(t - i - 1)}Bu(i) \right) + Bu(t) \\ 
+    &=  A^{((t + 1)-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{((t + 1) - i - 1)}Bu(i) + A^{((t + 1) - t - 1)}Bu(t) \\ 
+    &= A^{((t + 1)-1)} x_{\text{initial}} + \sum_{i=1}^{(t + 1)-1} A^{((t + 1) - i-1)}Bu(i)
 \end{align*}
 Plugging this into the objective function we now get an unconstrained version of the original problem:
 \vspace{-0.5em}
 \begin{align*}
+    \minimize_{u} \hspace{0.1cm} \|Ex_{\text{initial}} - q(1)\|_{\infty} +
+    \sum_{t=2}^{T} \bigg\|E \bigg(A^{(t-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(t - i-1)} B u(i)\bigg) - q(t)\bigg\|_{\infty} +
+    \lambda \sum_{t=1}^{T-1} ||u(t)||_{2}^2
+\end{align*}
+which in turn is equivalent to the following optimization problem (given that $\|Ex_{\text{initial}} - q(1)\|_{\infty}$ is a constant):
+\begin{align*}
     \minimize_{u} \hspace{0.4cm} \underbrace{
-    \sum_{t=1}^{T} ||E (A^{(t-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(i-1)} B u(i)) - q(t)||_{\infty} +
+    \sum_{t=2}^{T} \bigg\|E \bigg(A^{(t-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(t - i-1)} B u(i)\bigg) - q(t)\bigg\|_{\infty} +
     \lambda \sum_{t=1}^{T-1} ||u(t)||_{2}^2}_{\phi(u)}
 \end{align*}
-
 Consider now the following decomposition for the function $\phi$:
 \[  
-    \phi(u) =  \sum_{t=1}^{T} g_t(u) + h(u)
+    \phi(u) =  \sum_{t=2}^{T} g_t(u) + h(u)
 \]
 where 
 \vspace{-0.5em}
 \begin{align*}
-    g_t(u) &= ||E (A^{(t-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(i-1)} B u(i)) - q(t)||_{\infty} \\
+    g_t(u) &=  \bigg\|E \bigg(A^{(t-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(t - i-1)} B u(i)\bigg) - q(t)\bigg\|_{\infty} \\
     h(u) &= \lambda \sum_{t=1}^{T-1} \|u(t)\|_{2}^2 = 
     \lambda \left( u_1^2(1)+ u_2^2(1) + ... + u_1^2(T - 1)+ u_2^2(T - 1))\right) \\
     &=  \lambda \|u\|_2^2 = u^T (\lambda I_2) u
 \end{align*}
 
 Clearly, $h$ is a strongly convex function, since it is a quadratic function where the matrix associated with the quadratic form present in its expression $(\lambda I_2)$ is positive definite, since all its eigenvalues are $\lambda$ and $\lambda > 0$. \par
-On another hand, for $t = 1, ..., T$, $g_t$ can be re-written as:
+On another hand, for $t = 2, ..., T$, $g_t$ can be re-written as:
 \begin{align*}
-    g_t(u) &= \bigg\|\sum_{i=1}^{t-1} EA^{(i-1)} B u(i) + EA^{(t-1)} x_{\text{initial}} - q(t)\bigg\|_{\infty} \\
+    g_t(u) &= \bigg\|E \bigg(A^{(t-1)} x_{\text{initial}} + \sum_{i=1}^{t-1} A^{(t - i-1)} B u(i)\bigg) - q(t)\bigg\|_{\infty} \\
     &= \bigg\|
     \underbrace{
     \begin{bmatrix}
-        EB & EAB & EA^2B & ... & EA^{(t - 2)}B
+        EA^{(t - 2)}B & EA^{(t - 3)}B & ... & EAB & EB &  \overmat{$T - t$ \text{times}}{0_2 & ... & 0_2}
     \end{bmatrix}
     }_{\mathcal{A}}
     \begin{bmatrix}
-        u(1) \\ u(2) \\ u(3) \\ ... \\ u(t - 1)
+        u(1) \\ u(2) \\ ... \\ u(t - 2) \\ u(t - 1) \\ u(t) \\ ... \\ u(T -1)
     \end{bmatrix}
     + \underbrace{EA^{(t-1)} x_{\text{initial}} - q(t)}_{\beta}\bigg\|_{\infty} \\
-    &= \| \mathcal{A}u_{t-1} + \beta \|_{\infty} = (N \circ T)(u_{t-1})
+    &= \| \mathcal{A}u + \beta \|_{\infty} = (N \circ T)(u)
 \end{align*}
-where $T(u_{t-1}) = \mathcal{A}u_{t-1} + \beta$ and $N(z) = \|z\|_{\infty}$.\par
-Since $N$ is a convex function (it is a norm) and $T$ is an affine map, it follows that $g_t(u)$ is a convex function. Moreover, $\sum_{t=1}^{T} g_t(u)$ is also a convex function, since it is a conic combination of convex functions.
+where $T(u) = \mathcal{A}u + \beta$, $N(z) = \|z\|_{\infty}$ and $0_2$ denotes a $2 \times 2$ matrix of zeros.\par
+Since $N$ is a convex function (it is a norm) and $T$ is an affine map, it follows that $g_t(u)$ is a convex function. Moreover, $\sum_{t=2}^{T} g_t(u)$ is also a convex function, since it is a conic combination of convex functions.
 \par
-In conclusion, the cost function is the sum of a convex function $(\sum_{t=1}^{T} g_t(u))$ with a strongly convex function ($h(u)$), so it's itself a strongly convex function, thereby proving it has a unique global minimizer and so the optimization problem has a unique solution.
+In conclusion, the cost function is the sum of a convex function $(\sum_{t=2}^{T} g_t(u))$ with a strongly convex function ($h(u)$), so it's itself a strongly convex function, thereby proving it has a unique global minimizer and so the optimization problem has a unique solution.
 \end{proof}
 
 \section{Task 4}
@@ -338,14 +348,13 @@ In conclusion, the cost function is the sum of a convex function $(\sum_{t=1}^{T
     \includegraphics{../../src/task_4/output/ex_4_i=6.pdf}
 \end{figure}
 
-%From the results, we can see that the tracker chooses the trajectory with the highest probability. However, if the probability is not 100\%, it is noticeable an "hesitation", the tracker prefers to follow the one with highest probability, but deviated towards the other. \\
-From the results, we can see that an increase in $p_i$ yields an increase in proximity to the trajectory of the vehicle $i$ ($i \in \{1, 2\})$ in the sense that, for each time instant, the corresponding position becomes less distant (in this case, according to $l_{\infty}$ distance) to the position of the trajectory of vehicle $i$ in the same instant. Moreover, we observe that this overall proximity is more substantial when it is relative to the trajectory of the vehicle associated with the highest prior probability.
+From the results, we can see that an increase in $p_i$ yields an increase in proximity of the vehicle's trajectory to the target trajectory $i$ ($i \in \{1, 2\})$ in the sense that, for each time instant, the corresponding position becomes less distant (in this case, according to $l_{\infty}$ distance) to the position of the trajectory of target $i$ in the same instant. Moreover, we observe that this overall proximity is more substantial when it is relative to the target trajectory associated with the highest prior probability.
 
 Noting that the cost function can be written as:
 \[
     f(x, u) = p_1 \text{TE}_1(x, u) + p_2 \text{TE}_2(x, u) + \lambda \text{CE}(x, u)
 \]
-we see that, for a fixed lambda, if $p_i$ increases, the parcel $p_i \text{TE}_i(x, u)$ gains more relative importance in the cost function. As such, bigger decreases in the cost function can be more easily attained by lowering $\text{TE}_i(x, u)$. Consequently, the solution $(x^*, u^*)$ yields a lower value of $\text{TE}_i(x^*, u^*)$, and so the resulting trajectory will tend to become overall closer to the one of target $i$. In particular, if $p_i > p_j$, then  $\text{TE}_i(x^*, u^*) >=\text{TE}_j(x^*, u^*)$ and the vehicles trajectory will be more similar to that of vehicle $i$.
+we see that, for a fixed lambda, if $p_i$ increases, the parcel $p_i \text{TE}_i(x, u)$ gains more relative importance in the cost function. As such, bigger decreases in the cost function can be more easily attained by lowering $\text{TE}_i(x, u)$. Consequently, the solution $(x^*, u^*)$ yields a lower value of $\text{TE}_i(x^*, u^*)$, and so the resulting vehicle trajectory will tend to become overall closer to the one of target $i$. In particular, if $p_i > p_j$, then  $\text{TE}_i(x^*, u^*) \le \text{TE}_j(x^*, u^*)$ and the vehicles trajectory will be more similar to target trajectory $i$.
 
 \section{Task 5}
 
@@ -362,7 +371,7 @@ where
     \lambda \sum_{t=1}^{T-1} ||u_k(t)||_{2}^2 \bigg)
 \]
 
-with $k \in \{1, 2\}$. Given that the set of constraints can be broken into two sets, each one pertaining to disjoint sets of variables (namely $\{x_1, u_1\}$ and $\{x_2, u_2\}$) and that $p_k \ge 0$ we conclude that $(x_1, u_1)$ and $(x_2, u_2)$ can be obtained by solving two independent optimization problems, each one of the form:
+with $k \in \{1, 2\}$. Given that the set of constraints can be broken into two sets, each one pertaining to disjoint sets of variables (namely $\{x_1, u_1\}$ and $\{x_2, u_2\}$) and that $p_k \ge 0$, we conclude that $(x_1, u_1)$ and $(x_2, u_2)$ can be obtained by solving two independent optimization problems, each one of the form:
 \vspace{-0.5em}
 \begin{align*}
     \minimize_{u}& \hspace*{0.4cm} \sum_{t=1}^{T} ||Ex_k(t) - q_k(t)||_{\infty} +
@@ -371,9 +380,7 @@ with $k \in \{1, 2\}$. Given that the set of constraints can be broken into two 
     & \;\;\; x_k(t + 1) = Ax_k(t) + Bu_k(t)
 \end{align*}
 
-where $k \in \{1, 2\}$. With that being said, we would be obtaining two independent solutions for the problem discussed in Tasks 1, 2 and 3. In turn, these two trajectories would only coincide at the initial instant but would tendentially become closer to the target associated with the corresponding problem. Hence, this formulation is completely agnostic to the fact that, until the target is made known at $t = 35$, the trajectories must be exactly the same.
-
-%The given formulation doesn't include that, until $t = 34$, the tracker will simply follow the minimum cost path between trajectory 1 and 2. Only at $t = 35$ will the tracker follow the true target. Also, there is no coupling between ($x_1$, $u_1$) and ($x_2$, $u_2$). \\
+where $k \in \{1, 2\}$. With that being said, we would be obtaining two independent solutions for the problem discussed in Tasks 1, 2 and 3. In turn, these two trajectories would only coincide at the initial instant but would tendentially become closer to the target associated with the corresponding problem. Hence, this formulation is completely agnostic to the fact that, until the target is made known at $t = 35$, the trajectories must be exactly the same (which cannot be guaranteed in general in the current formulation).
 
 \section{Task 6}
 
@@ -384,7 +391,7 @@ The following constraint solves the questions raised in the previous task: \\
     u_1(t) = u_{2}(t), \> \> \> 1 \le t \le 34
 \end{equation}
 
-Note that $x_1$ and $x_2$ become equal (for $1 \le t \le 34$), given these constraints together with (\ref{equation_t6}): \\
+Note that $x_1$ and $x_2$ become equal (for $1 \le t \le 34$), given (3) together with these constraints: \\
 \vspace{-1.6em}
 \begin{align*}
     x_1(t+1) = A x_1(t) + B u_1(t), \> \> \> 1 \le t \le T-1 \\
